@@ -6,7 +6,7 @@ import { EventModal } from './components/EventModal';
 import { TodoList } from './components/TodoList';
 import type { ScheduleEvent } from './types';
 import { Calendar as CalendarIcon, ChevronLeft, ChevronRight } from 'lucide-react';
-import { format, addWeeks, subWeeks } from 'date-fns';
+import { format, addWeeks, subWeeks, startOfWeek } from 'date-fns';
 import { zhCN } from 'date-fns/locale';
 
 function App() {
@@ -19,6 +19,10 @@ function App() {
 
   // Current Week State
   const [currentDate, setCurrentDate] = useState(new Date());
+  
+  // Compute weekKey (Monday of the current week)
+  const activeWeekStart = startOfWeek(currentDate, { weekStartsOn: 0 }); // Sunday as start
+  const weekKey = format(activeWeekStart, 'yyyy-MM-dd');
 
   const handlePrevWeek = () => setCurrentDate((prev) => subWeeks(prev, 1));
   const handleNextWeek = () => setCurrentDate((prev) => addWeeks(prev, 1));
@@ -35,11 +39,11 @@ function App() {
     setIsModalOpen(true);
   };
 
-  const handleModalSave = (data: Omit<ScheduleEvent, 'id'>) => {
+  const handleModalSave = (data: Omit<ScheduleEvent, 'id' | 'weekKey'>) => {
     if (modalData && 'id' in modalData) {
-      updateEvent({ ...data, id: (modalData as ScheduleEvent).id });
+      updateEvent({ ...data, id: (modalData as ScheduleEvent).id, weekKey: (modalData as ScheduleEvent).weekKey });
     } else {
-      addEvent(data);
+      addEvent({ ...data, weekKey });
     }
   };
 
@@ -92,6 +96,7 @@ function App() {
           onAddEvent={handleAddEventClick}
           onEditEvent={handleEditEventClick}
           currentDate={currentDate}
+          weekKey={weekKey}
           categories={categories}
           getCategoryTheme={getCategoryTheme}
         />
@@ -104,7 +109,7 @@ function App() {
       <EventModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        onSave={handleModalSave}
+        onSave={handleModalSave as any}
         onDelete={deleteEvent}
         initialData={modalData}
         categories={categories}

@@ -14,6 +14,7 @@ export interface ScheduleEvent {
   startTime: string; // ISO String format or Date
   endTime: string; // ISO String format or Date
   dayIndex: number; // 0 (Sunday) to 6 (Saturday) relative to the current week
+  weekKey: string; // The ISO date of the Monday of this week, e.g. "2023-10-23"
 }
 
 export interface TodoItem {

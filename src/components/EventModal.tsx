@@ -6,7 +6,7 @@ import { X, Plus } from 'lucide-react';
 interface EventModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (eventData: Omit<ScheduleEvent, 'id'>) => void;
+  onSave: (eventData: Omit<ScheduleEvent, 'id' | 'weekKey'>) => void;
   onDelete?: (id: string) => void;
   initialData?: Partial<ScheduleEvent> | ScheduleEvent;
   categories: CustomCategory[];

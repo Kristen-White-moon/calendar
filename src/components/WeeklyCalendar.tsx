@@ -8,6 +8,7 @@ interface WeeklyCalendarProps {
   onAddEvent: (startTime: string, endTime: string, dayIndex: number) => void;
   onEditEvent: (event: ScheduleEvent) => void;
   currentDate: Date; // A date in the week to determine the actual dates
+  weekKey: string; // The current week key
   categories: CustomCategory[];
   getCategoryTheme: (id: string) => CustomCategory;
 }
@@ -39,6 +40,7 @@ export const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
   onAddEvent,
   onEditEvent,
   currentDate,
+  weekKey,
   categories,
   getCategoryTheme,
 }) => {
@@ -197,7 +199,7 @@ export const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
 
               {/* Render Existing Events */}
               {events
-                .filter((ev) => ev.dayIndex === dayIndex)
+                .filter((ev) => ev.dayIndex === dayIndex && ev.weekKey === weekKey)
                 .map((ev) => {
                   const startDec = timeToDecimal(ev.startTime);
                   const endDec = timeToDecimal(ev.endTime);
@@ -268,7 +270,7 @@ export const WeeklyCalendar: React.FC<WeeklyCalendarProps> = ({
          </div>
          {DAYS.map((_, index) => (
              <div key={`stats-${index}`} className="flex-1 min-w-[var(--day-col-min-width)] border-r border-slate-100">
-                 <DailyStats events={events} dayIndex={index} categories={categories} />
+                 <DailyStats events={events.filter(e => e.weekKey === weekKey)} dayIndex={index} categories={categories} />
              </div>
          ))}
       </div>
