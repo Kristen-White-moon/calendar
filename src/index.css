@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+:root {
+  /* 低饱和度的治愈系色彩体系 (Low saturation healing palette) */
+  --bg-primary: #f8fafc; /* 极浅蓝灰背景 */
+  --bg-card: #ffffff; /* 卡片白背景 */
+  --text-primary: #334155; /* 深蓝灰主文本 */
+  --text-secondary: #64748b; /* 浅蓝灰次文本 */
+  --border-color: #e2e8f0; /* 边框色 */
+  
+  /* 日程分类颜色 (Categories colors - low saturation) */
+  --color-sleep: #c7d2fe; /* 睡眠 - 浅蓝紫 */
+  --color-work: #fed7aa; /* 工作 - 浅橙 */
+  --color-leisure: #bbf7d0; /* 娱乐 - 浅绿 */
+  --color-other: #e5e7eb; /* 其他 - 浅灰 */
+
+  /* UI 辅助颜色 */
+  --color-primary-btn: #94a3b8; /* 主按钮色 - 柔和灰蓝 */
+  --color-primary-btn-hover: #64748b; /* 主按钮悬浮色 */
+  --color-danger-btn: #fca5a5; /* 危险按钮色 - 柔和红 */
+  --color-danger-btn-hover: #ef4444; /* 危险按钮悬浮色 */
+  
+  /* 尺寸和布局变量 */
+  --hour-height: 48px; /* 每个小时格子的像素高度 */
+  --header-height: 60px; /* 顶部控制栏高度 */
+  --stats-height: 150px; /* 底部统计区高度 */
+  --time-col-width: 60px; /* 最左侧时间列宽度 */
+  --day-col-min-width: 100px; /* 每天列的最小宽度 */
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden; /* 防止主页面滚动，只在特定区域滚动 */
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  /* 模糊背景效果准备 */
+  background: var(--bg-primary);
+}
+
+/* 隐藏滚动条但保留功能 */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* 按钮基础样式重置 */
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+  transition: all 0.2s ease;
+}
+
+/* 输入框基础样式重置 */
+input, textarea {
+  font-family: inherit;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 8px 12px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+input:focus, textarea:focus {
+  border-color: var(--color-primary-btn);
+}
+
+/* 玻璃态卡片通用类 */
+.glass-card {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* 微动效 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+@keyframes popIn {
+  0% { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.animate-pop-in {
+  animation: popIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
